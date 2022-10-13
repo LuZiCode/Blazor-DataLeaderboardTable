@@ -1,0 +1,83 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Leaderboard</PageTitle>
+
+@using Leaderboard.Data
+
+@*<link rel="stylesheet" href="./style.css"/>*@
+
+<h1>Leaderboard</h1>
+
+
+@if (leaderboardList == null)
+{
+    <p><em>Loading database...</em></p>
+}
+else
+{
+@*    <p>Create new player</p>
+    <div>
+        <input type="text" @bind="@PlayerName" @oninput="OnPlayerEvent" class="login__input" placeholder="Playername">
+        <input type="text" @bind="@Highscore" @oninput="OnHighscoreEvent" class="login__input" placeholder="Playername">
+    </div>*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Playername</th>
+                <th>Highscore</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (HighscoreItem item in leaderboardList)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Playername</td>
+                    <td>@item.Highscore</td>
+                    <button @onclick="Update">Update</button>
+                    <button @onclick="Delete">Delete</button>
+                </tr>
+            }
+            <tr>
+                <td><button @onclick="AddItem">+</button></td>
+                <td><input @bind="highscoreItem.Playername" /></td>
+                <td><input @bind="highscoreItem.Highscore" /></td>
+            </tr>
+        </tbody>          
+    </table>
+}
+
+@code {
+
+    HighscoreItem highscoreItem = new HighscoreItem();
+    List<HighscoreItem> leaderboardList = new SQL().ReadLeaderboard();
+
+    void AddItem()
+    {
+        new SQL().CreateLeaderboard(highscoreItem);
+        leaderboardList = new SQL().ReadLeaderboard();
+    }
+
+    void Delete()
+    {
+
+    }
+
+    void Update()
+    {
+        
+    }
+
+    //private string PlayerName = "";
+    //private void OnPlayerEvent(ChangeEventArgs changeEvent)
+    //{
+    //    PlayerName = (string)changeEvent.Value;
+    //}
+    //private string Highscore = "";
+    //private void OnHighscoreEvent(ChangeEventArgs changeEvent)
+    //{
+    //    Highscore = (string)changeEvent.Value;
+    //}
+
+}
