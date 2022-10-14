@@ -1,0 +1,65 @@
+﻿@page "/deleteplayer"
+
+<PageTitle>Leaderboard - Delete Player</PageTitle>
+
+@using Leaderboard.Data
+
+@inject NavigationManager navManager
+
+@*<link rel="stylesheet" href="./style.css"/>*@
+
+<h1>Delete Player Menu</h1>
+
+
+@*@if (Id <= 0)
+{
+    <p><em>Loading player...</em></p>
+}
+else
+{
+}*@
+    <div>
+        <h3>ID</h3>
+        <input type="text" class="login__input" placeholder="@Id" readonly>
+    </div>
+    <div>
+        <h3>Playername</h3>
+        <input type="text" class="login__input" placeholder="@Playername" readonly>
+    </div>
+    <div>
+        <p>Do you wish to delete this person?</p>
+        <button @onclick="DeletePerson">
+            <span>Confirm</span>
+        </button>
+        <button @onclick="GoBack">
+            <span>Cancel</span>
+        </button>
+    </div>
+
+@code {
+    private int Id = DTO.Id;
+    private string Playername = DTO.Playername;
+
+    void DeletePerson()
+    {
+        new SQL().DeletePlayer();
+        GoBack();
+    }
+
+    void GoBack()
+    {
+      navManager.NavigateTo("/fetchdata/");
+    }
+    //public void GatherPLayerInfo(int id, string playername)
+    //{
+    //    Id = id;
+    //    Playername = playername;
+    //}
+
+    //void Delete()
+    //{
+    //    navManager.NavigateTo("deletepage");
+    //}
+
+
+}

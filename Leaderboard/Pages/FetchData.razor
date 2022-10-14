@@ -4,6 +4,8 @@
 
 @using Leaderboard.Data
 
+@inject NavigationManager navManager
+
 @*<link rel="stylesheet" href="./style.css"/>*@
 
 <h1>Leaderboard</h1>
@@ -32,11 +34,10 @@ else
             @foreach (HighscoreItem item in leaderboardList)
             {
                 <tr>
-                    <td>@item.Id</td>
+                    <td>@item.Id <button @onclick="() => Delete(item.Id, item.Playername)">Delete</button></td>
                     <td>@item.Playername</td>
                     <td>@item.Highscore</td>
                     <button @onclick="Update">Update</button>
-                    <button @onclick="Delete">Delete</button>
                 </tr>
             }
             <tr>
@@ -50,17 +51,25 @@ else
 
 @code {
 
+
     HighscoreItem highscoreItem = new HighscoreItem();
     List<HighscoreItem> leaderboardList = new SQL().ReadLeaderboard();
 
+
+
     void AddItem()
     {
-        new SQL().CreateLeaderboard(highscoreItem);
+        new SQL().CreatePlayer(highscoreItem);
         leaderboardList = new SQL().ReadLeaderboard();
     }
 
-    void Delete()
+    void Delete(int Id, string playername)
     {
+        //var f = new DeletePlayer();
+        //f.GatherPLayerInfo(Id, playername);
+        DTO.Id = Id;
+        DTO.Playername = playername;
+        navManager.NavigateTo("/deleteplayer/");
 
     }
 

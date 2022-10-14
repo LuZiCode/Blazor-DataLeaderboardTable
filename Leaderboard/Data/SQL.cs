@@ -33,7 +33,7 @@ namespace Leaderboard.Data
             return list;
         }
 
-        public bool CreateLeaderboard(HighscoreItem h)
+        public bool CreatePlayer(HighscoreItem h)
         {
             using (conn)
             {
@@ -45,6 +45,16 @@ namespace Leaderboard.Data
                 conn.Open();
                 if (cmd.ExecuteNonQuery() == 1) return true; else return false;
             }
+        }
+
+        public void DeletePlayer()
+        {
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("Delete Leaderboard where Id='" + DTO.Id + "'", conn);
+            cmd.Parameters.AddWithValue("@Id", DTO.Id);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }
